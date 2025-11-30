@@ -1,4 +1,4 @@
--- Reastaurant Menu & Order System 
+﻿-- Reastaurant Menu & Order System 
 create database Reastaurant;
 use Reastaurant;
 
@@ -83,6 +83,10 @@ values (1, 'Rahul Sharma', '9876543210', 'rahul@email.com'),
 (13, 'Vivek Kumar', '9990011223', 'vivek@email.com'),
 (14, 'Meera Iyer', '9111223344', 'meera@email.com'),
 (15, 'Aditya Jain', '9222334455', 'aditya@email.com');
+--MISTAKENLY EMAIL ENTERED IN PHONE NUMBER, SO IT IS RESOLVED HERE: 
+update customers
+set email = phone ,
+	phone = email;
 
 --ORDERS
 INSERT INTO orders(orderID, customerID, orderDate, TotalAmount)
@@ -120,4 +124,64 @@ values(1, 1, 1, 1, 350),
 (14, 8, 15, 1, 300),
 (15, 9, 8, 2, 200);
 
---QUERIES 
+--BEGINNER LEVEL QUERIES: Q1 to Q8
+--Q1:List all menu items with their category and price.
+SELECT Menu.ItemName, Menu.category, Menu.price FROM Menu;
+
+--Q2:Show all customers’ names and phone numbers.
+select customers.name, customers.phone from customers;
+
+--Q3:Retrieve all orders placed on 2025-11-05.
+select orders.orderID from orders where orderDate >= '2025-11-05' and orderDate <= '2025-11-06';
+
+select orders.orderID from orders where convert(date, orderDate) =  '2025-11-05';
+
+select customers.name, orders.orderID, orders.TotalAmount, orders.orderDate from customers
+join orders on customers.customerID = orders.orderID
+where orders.orderDate between '2025-11-02' and '2025-11-06';
+
+--Q4:Display the details of OrderID = 3 (items, quantity, line total).
+select customers.name, Menu.ItemName, orderDetails.quantity, orderDetails.LineTotal,orders.TotalAmount
+from orders
+join orderDetails on  orders.orderID = orderDetails.orderID
+join Menu on orderDetails.foodID = Menu.foodID
+join customers on customers.customerID = orders.customerID
+where orders.orderID =3;
+
+--Q5:- Find the price of “Veg Burger”.
+select Menu.ItemName, menu.price from Menu where ItemName = 'veg burger';
+
+select sum(Menu.price) AS TotalMenuPrice from Menu;
+
+--Q6:- Insert a new customer into the Customers table.
+insert into customers
+values (16,'Amit Gupta','amit.official.180820@gmail.com','9166107149');
+
+select customers.name from customers where customers.customerID = 16
+
+--Q7: - Update the price of “Paneer Tikka” to ₹270.
+select Menu.ItemName, menu.price from Menu where Menu.ItemName = 'paneer tikka';
+
+update Menu
+set Menu.price = 270
+where menu.ItemName = 'paneer tikka';
+
+--Q8: - Delete the customer with CustomerID = 16
+delete from customers where customers.customerID = 16;
+select count(customers.customerID) from customers;
+
+--INTERMEDIATE LEVEL QUERIES
+--Q9:Show all orders with customer name, order date, and total amount.
+select orders.orderID, customers.name, orders.orderDate, orders.TotalAmount
+from orders
+join customers on customers.customerID = orders.customerID;
+
+--Q10: - List all items ordered by “Priya Mehta”.
+select customers.name, Menu.ItemName
+from customers
+join orders on customers.customerID = orders.customerID
+join orderDetails on orders.orderID = orderDetails.orderID
+join Menu on orderDetails.foodID = Menu.foodID
+where customers.name = 'priya mehta';
+
+--Q11:- Find the total sales amount for November 2025.
