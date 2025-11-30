@@ -217,3 +217,4 @@ group by Menu.category;
 select avg(orders.totalamount) as AverageOrderValue from orders;
 
 --Q18: - List customers who never placed an order.
+--Solution: 
