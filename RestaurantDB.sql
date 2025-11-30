@@ -185,3 +185,35 @@ join Menu on orderDetails.foodID = Menu.foodID
 where customers.name = 'priya mehta';
 
 --Q11:- Find the total sales amount for November 2025.
+select sum(orders.TotalAmount) AS TotalSalesAmount  from orders where month(orders.orderDate)=11;
+
+--Q12:Show the most popular item (highest total quantity ordered).
+select Menu.ItemName, OrderDetails.quantity from Menu
+join OrderDetails on orderDetails.foodID = Menu.foodID
+where orderDetails.quantity > 1;
+
+--Q13: - Find customers who spent more than ₹500 in total.
+select customers.name, orders.TotalAmount from customers
+join orders on customers.customerID = orders.customerID
+where orders.TotalAmount >500;
+
+--Q14: Display the top 3 highest-priced menu items.
+select top 3 Menu.ItemName, Menu.price from Menu
+order by Menu.price desc;
+
+--Q15:Count how many orders each customer has placed.
+select customers.name, count(OrderDetails.orderDetailID) as NumberOfOrders from orders
+join OrderDetails on orderDetails.orderID = orders.orderID
+join customers on customers.customerID = orders.customerID
+group by customers.name
+order by NumberOfOrders desc;
+
+--Q16: Show sales grouped by category (Starters, Main Course, Desserts, Beverages)
+select Menu.category, sum(OrderDetails.LineTotal) As TotalSales from Menu
+join orderDetails on Menu.foodID = orderDetails.foodID
+group by Menu.category;
+
+--Q17: Find the average order value.
+select avg(orders.totalamount) as AverageOrderValue from orders;
+
+--Q18: - List customers who never placed an order.
