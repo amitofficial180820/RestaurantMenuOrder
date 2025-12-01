@@ -18,7 +18,6 @@ def menu():
     conn.close()
     return render_template('Menu.html', menu=menu)
 
-
 @app.route('/customers')
 def customers():
     conn = get_connection()
@@ -29,6 +28,25 @@ def customers():
     customers = cursor.fetchall()
     conn.close()
     return render_template('customers.html', customers=customers)
+
+@app.route('/add_customer', methods=['GET', 'POST'])
+def add_customer():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO customers (name,email,phone) VALUES (?, ?, ?)",
+                (name, email, phone)
+            )
+            conn.commit()
+
+        return redirect('/customers')
+    else:
+        return render_template('add_customer.html')
 
 if __name__ =='__main__':
     app.run(debug=True)
