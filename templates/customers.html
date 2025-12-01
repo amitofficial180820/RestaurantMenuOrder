@@ -1,0 +1,19 @@
+<h1>CUSTOMERS</h1>
+
+<table>
+    <tr>
+        <th>CustomerID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+    {% for customer in customers %}
+        <tr>
+            <td>{{ customer[0] }}</td>
+            <td>{{ customer[1] }}</td>
+            <td>{{ customer[2] }}</td>
+            <td>{{ customer[3] }}</td>
+        </tr>
+    {% endfor %}
+
+</table>

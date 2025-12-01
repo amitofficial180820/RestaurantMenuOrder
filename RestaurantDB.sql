@@ -1,7 +1,6 @@
 ﻿-- Reastaurant Menu & Order System 
 create database Reastaurant;
 use Reastaurant;
-
 --Tables : Menu, CustomerS, OrderS, OrderDetail
 
 --Menu Table
@@ -46,6 +45,7 @@ select * from customers;
 select * from orders;
 select * from OrderDetails;
 SELECT NAME FROM SYS.TABLES;
+select name from sys.databases;
 
 -- INSERTING SAMPLE DATA
 --MENU
@@ -218,3 +218,11 @@ select avg(orders.totalamount) as AverageOrderValue from orders;
 
 --Q18: - List customers who never placed an order.
 --Solution: 
+
+--Q20.	Write a query to find the top 2 customers by spending.
+select top 2 customers.name, sum(orders.TotalAmount) as TotalSpend from customers
+join orders on customers.customerID = orders.customerID
+group by customers.name
+order by TotalSpend desc;
+
+--Q23.	Show all orders that included “Pizza”
